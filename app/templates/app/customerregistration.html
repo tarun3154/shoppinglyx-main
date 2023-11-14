@@ -1,4 +1,3 @@
-<!-- customerregistration.html -->
 {% extends 'app/base.html' %}
 {% load static %}
 {% block title %}Customer Registration{% endblock title %}
@@ -10,17 +9,24 @@
             <hr>
 
             <form action="" method="post" novalidate class="shadow p-5">
-               {% csrf_token %}
-               {% for fm in form %}
-               <div class='form-group mb-3'>
-                  {{fm.label_tag}}{{fm}} <small class='text-danger'>{{fm.errors|striptags}}</small>
-               </div>
-               {% endfor %}
+                {% csrf_token %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <p {% if message.tags %}class="alert alert-{{ message.tags }} mb-5"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
 
-               <input type='submit' value='submit' class='btn btn-primary'>
-               <br>
-               <div class='text-center text-primary fw-bold'>
-                  <small>Existing user? <a href='{% url "login" %}' class='text-danger'>Login Now</a> </small></div>
+                {% for fm in form %}
+                    <div class="form-group mb-3">
+                        {{ fm.label_tag }}{{ fm }} <small class="text-danger">{{ fm.errors|striptags }}</small>
+                    </div>
+                {% endfor %}
+
+                <input type="submit" value="Submit" class="btn btn-primary">
+                <br>
+                <div class="text-center text-primary fw-bold">
+                    <small>Existing user? <a href="{% url 'login' %}" class="text-danger">Login Now</a> </small>
+                </div>
                 {% if form.non_field_errors %}
                     {% for error in form.non_field_errors %}
                         <p class="alert alert-danger my-3">{{ error }}</p>
