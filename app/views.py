@@ -10,14 +10,11 @@ from .models import *
 from .forms import *
 
 
-@login_required(login_url='login')
-def profile(request):
-    return render(request, 'app/profile.html')
-
 
 @login_required(login_url='login')
 def address(request):
-    return render(request, 'app/address.html')
+    add= Customer.objects.filter(user=request.user)
+    return render(request, 'app/address.html',{'add':add})
 
 
 @login_required(login_url='login')
@@ -43,13 +40,25 @@ class ProductView(View):
 class ProductDetailView(View):
     @login_required(login_url='login')
     def get(self, request, pk):
+        user=request.user
         product = Product.objects.get(id=pk)
-        return render(request, 'app/productdetail.html', {'product': product})
+        print(product)
+        return render(request, 'app/productdetail.html', {'product': product,'user':user})
 
 
 @login_required(login_url='login')
 def add_to_cart(request):
+    user=request.user
+    product_id= request.GET.get('prod_id')
+    product=Product.objects.get(id=product_id)
+    Cart(user=user,product=product.id).save()
     return render(request, 'app/addtocart.html')
+
+def removeitem(request,pk):
+    item=Cart.objects.get(id=pk)
+    item.delete()
+    redirect('cart')
+
 
 
 @login_required(login_url='login')
@@ -110,3 +119,25 @@ def register_user(request):
 @login_required(login_url='login')
 def checkout(request):
     return render(request, 'app/checkout.html')
+
+
+
+class ProfileView(View):
+    def get(self, request):
+        form = CustomerProfileForm()
+        return render(request, 'app/profile.html', {'form': form})
+
+    def post(self, request):
+        form = CustomerProfileForm(request.POST)
+        if form.is_valid():
+            usr=request.user
+            name=form.cleaned_data['name']
+            locality=form.cleaned_data['locality']
+            city=form.cleaned_data['city']
+            state=form.cleaned_data['state']
+            zipcode=form.cleaned_data['zipcode']
+            reg= Customer(user=usr,name=name,locality=locality,city=city,state=state,zipcode=zipcode)
+            reg.save()
+            messages.success(request,'Profile Successfully Updated')
+        
+        return render(request, 'app/profile.html', {'form': form ,'user':usr})

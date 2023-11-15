@@ -9,9 +9,9 @@ from .forms import *
 urlpatterns = [
     path('', views.ProductView.as_view(),name='home'),
     path('product-detail/<int:pk>', views.ProductDetailView.as_view(), name='product-detail'),
-    path('cart/', views.add_to_cart, name='add-to-cart'),
+    path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
     path('buy/', views.buy_now, name='buy-now'),
-    path('profile/', views.profile, name='profile'),
+    path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
     path('orders/', views.orders, name='orders'),
     path('mobile/', views.mobile, name='mobile'),
@@ -21,17 +21,18 @@ urlpatterns = [
     #password reset
     path('password-reset/',auth_views.PasswordResetView.as_view(template_name='app/password_reset.html',form_class=MyPasswordResetForm),name='password_reset'),
     path('password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='app/password_reset_done.html'),name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='app/password_reset_confirm.html',form_class=MySetPasswordForm),name='password_reset_confirm'),
+    path('password_reset_complete/', auth_views.PasswordResetCompleteView.as_view(template_name='app/password_reset_complete.html'), name='password_reset_complete'),
 
-    path('password-reset-confrim/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='app/password_reset_confirm.html',form_class=MySetPasswordForm),name='password_reset_confirm'),
 
-    path('password-reset-complete/',auth_views.PasswordResetCompleteView.as_view(template_name='app/password_reset_complete.html'),name='password_reset_complete        '),
 
 
     path('mobile/<slug:data>', views.mobile, name='mobiledata'),
-    path('login/', views.login_user, name='login'),
+    path('accounts/login/', views.login_user, name='login'),
     path('logout/',views.Userlogout,name='logout'),
     path('registration/', views.register_user, name='customerregistration'),
     path('checkout/', views.checkout, name='checkout'),
+    path('remove-item<int:pk>/',views.removeitem,name='removeitem'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
