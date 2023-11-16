@@ -71,7 +71,7 @@
               </ul>
             </li>
             <li class="nav-item mx-2">
-             <a href="{% url 'add-to-cart' %}" class="nav-link text-white"><span class="badge bg-danger">4</span> Cart </a>
+             <a href="{% url 'show-cart' %}" class="nav-link text-white"><span class="badge bg-danger"></span> Cart </a>
             </li>
           {% else %}
             <li class="nav-item mx-2">
@@ -106,5 +106,33 @@
     <script src="{% static 'app/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'app/js/all.min.js' %}"></script>
     <script src="{% static 'app/js/myscript.js' %}"></script>
+
+    <script>
+      const minusButtons = document.querySelectorAll('.minus-cart');
+      const plusButtons = document.querySelectorAll('.plus-cart');
+
+minusButtons.forEach(button => {
+  button.addEventListener('click', (event) => {
+    const quantityElement = event.target.nextElementSibling;
+    let quantity = parseInt(quantityElement.textContent);
+
+    if (quantity > 1) {
+      quantity--;
+      quantityElement.textContent = quantity;
+    }
+  });
+});
+
+plusButtons.forEach(button => {
+  button.addEventListener('click', event => {
+    const quantityElement = event.target.previousElementSibling;
+    let quantity = parseInt(quantityElement.textContent);
+
+    quantity++;
+    quantityElement.textContent = quantity;
+  });
+});
+
+    </script>
   </body>
 </html>
