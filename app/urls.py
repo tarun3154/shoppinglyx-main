@@ -10,6 +10,15 @@ urlpatterns = [
     path('', views.ProductView.as_view(),name='home'),
     path('product-detail/<int:pk>', views.ProductDetailView.as_view(), name='product-detail'),
     path('add-to-cart/', views.add_to_cart, name='add-to-cart'),
+    path('cart/', views.show_cart, name='show-cart'),
+
+    path('pluscart/', views.plus_cart),
+    path('minuscart/', views.minus_cart),
+
+
+
+
+
     path('buy/', views.buy_now, name='buy-now'),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('address/', views.address, name='address'),
@@ -32,7 +41,7 @@ urlpatterns = [
     path('logout/',views.Userlogout,name='logout'),
     path('registration/', views.register_user, name='customerregistration'),
     path('checkout/', views.checkout, name='checkout'),
-    path('remove-item<int:pk>/',views.removeitem,name='removeitem'),
+    path('remove-item<int:item_id>/',views.remove_item,name='remove_item'),
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

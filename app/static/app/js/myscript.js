@@ -21,3 +21,42 @@ $('#slider1, #slider2, #slider3').owlCarousel({
         }
     }
 })
+
+$('.plus-cart').click(function(){
+    const id = $(this).attr("pid").toString();
+   
+    console.log(id);
+
+    const data = {
+        prod_id: id
+    };
+
+    $.ajax({
+        type: "GET",
+        url: "/pluscart",
+        data: data,
+        success: function(data){
+           
+            console.log(data);
+        }
+    });
+});
+
+
+$('.minus-cart').click(function(){
+    const id = $(this).attr("pid").toString();
+    console.log(id);
+
+    const data = {
+        prod_id: id
+    };
+
+    $.ajax({
+        type: "GET",
+        url: "/minuscart",
+        data: data,
+        success: function(data){
+            console.log(data);
+        }
+    });
+});
