@@ -24,6 +24,7 @@ $('#slider1, #slider2, #slider3').owlCarousel({
 
 $('.plus-cart').click(function(){
     const id = $(this).attr("pid").toString();
+    
    
     console.log(id);
 
